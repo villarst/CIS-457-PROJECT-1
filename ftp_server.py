@@ -1,3 +1,4 @@
+#ftp-server by Steve Villarreal & Corey Rice
 import socket
 import os
 # This file must run first.
@@ -12,14 +13,14 @@ s.listen()
 hostaddr, port = s.accept()
 print("Server is running and connected!")
 
-def listFiles(connection):
+def listF(connection):
     # getcwd() returns the Current Working Directory.
     dir = os.getcwd()
     filesInDir = os.listdir(dir)
     returnVal = "\n".join(filesInDir)
     connection.sendall(returnVal.encode())
 
-def retrieveFile(connection, fileName):
+def retrieve(connection, fileName):
     sizeOfFile = os.path.getsize("./" + fileName)
     # send filesize across so receiver knows how big it is.
     connection.sendall(str(sizeOfFile).encode())
@@ -35,7 +36,7 @@ def retrieveFile(connection, fileName):
     connection.sendall(Data)
     file.close()
 
-def storeFile(connection, fileName, fileSize):
+def store(connection, fileName, fileSize):
     file = open(fileName, "wb")
     data = connection.recv(int(fileSize), socket.MSG_WAITALL)
     file.write(data) 
@@ -62,12 +63,12 @@ with hostaddr:
             break
 
         elif inputString[0] == "LIST":
-            listFiles(hostaddr)
+            listF(hostaddr)
 
         elif inputString[0] == "RETRIEVE":
-                retrieveFile(hostaddr, inputString[1])   
+                retrieve(hostaddr, inputString[1])   
 
         elif inputString[0] == "STORE":
-                storeFile(hostaddr, inputString[1], inputString[2])
+                store(hostaddr, inputString[1], inputString[2])
 
     

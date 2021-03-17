@@ -1,3 +1,4 @@
+#ftp-client by Steve Villarreal & Corey Rice
 import socket
 import sys 
 import os
@@ -13,11 +14,11 @@ class FTPConnection():
         self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.connect((address, portNum))
     
-    def listFiles(self):
+    def listF(self):
         self.sock.sendall("LIST".encode())
         print(self.sock.recv(1024).decode())
     
-    def retrieveFile(self, fileName):
+    def retrieve(self, fileName):
         self.sock.sendall(("RETRIEVE " + fileName).encode())
 
         #get filesize from server
@@ -28,7 +29,7 @@ class FTPConnection():
         file.close()
         print("File Retrieved")
     
-    def storeFile(self, fileName):
+    def store(self, fileName):
         sizeOfFile = os.path.getsize("./" + fileName)
         # we tried deleting str(sizeOfFile)..... but got an error.
         self.sock.sendall(("STORE " + fileName  + " " + str(sizeOfFile)).encode())
@@ -51,6 +52,10 @@ class FTPConnection():
 print("Please enter CONNECT IPADDRESS/HOSTNAME [SPACE] PORTNUM to start up the connection.")
 connection = FTPConnection()
 cli = "\nClientCLI> "
+print("The Commands available: \nLIST - The server will list the files in current directory" + 
+"\nRETRIEVE *filename* - Allows a client to get a file specified by its file name to the server" + 
+"\nSTORE *filename* - Store a file with the specified name to the server" + 
+"\nQUIT - This command terminates the connection to the server \n")
 
 while (True):
     inputs = str(input(cli))
@@ -64,13 +69,13 @@ while (True):
             print("Connected to host: " + inputs[1] + " via portNum: " + inputs[2])
     else:
         if inputs[0] == "STORE":
-                connection.storeFile(inputs[1])
+                connection.store(inputs[1])
         
         elif inputs[0] == "LIST":
-                connection.listFiles()
+                connection.listF()
 
         elif inputs[0] == "RETRIEVE":
-                connection.retrieveFile(inputs[1])
+                connection.retrieve(inputs[1])
 
         elif inputs[0] == "QUIT":
             connection.quit()
