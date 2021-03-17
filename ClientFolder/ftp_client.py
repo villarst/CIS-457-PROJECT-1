@@ -52,7 +52,7 @@ class FTPConnection():
 print("Please enter CONNECT IPADDRESS/HOSTNAME [SPACE] PORTNUM to start up the connection.")
 connection = FTPConnection()
 cli = "\nClientCLI> "
-print("The Commands available: \nLIST - The server will list the files in current directory" + 
+print("After connecting the Commands available are: \nLIST - The server will list the files in current directory" + 
 "\nRETRIEVE *filename* - Allows a client to get a file specified by its file name to the server" + 
 "\nSTORE *filename* - Store a file with the specified name to the server" + 
 "\nQUIT - This command terminates the connection to the server \n")

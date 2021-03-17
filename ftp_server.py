@@ -3,7 +3,7 @@ import socket
 import os
 # This file must run first.
 host = socket.gethostname()
-port = 2323
+port = 1234
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 print(host)
